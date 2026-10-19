@@ -9,9 +9,8 @@ All notable changes to this module will be documented in this file.
 - Initial `terraform-volcenginecc-eip` module.
 - Stable map-based independent EIP allocation with billing, bandwidth, ISP, project, naming, and tags.
 - Optional Provider-supported ECS, NAT Gateway, network-interface, CLB, and HaVip binding inputs.
-- Basic and complete examples, static validation, and retained real-cloud lifecycle fixtures.
+- Basic and complete examples and static validation.
 - Read-only reuse of explicitly identified existing EIPs with ownership-aware outputs.
-- Executable ECS/NAT binding, external-EIP/NLB composition, and binding-migration acceptance assets.
 
 ### Changed
 

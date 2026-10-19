@@ -4,7 +4,7 @@ variable "name_prefix" {
   default     = null
 
   validation {
-    condition     = var.name_prefix == null || (trimspace(var.name_prefix) != "" && length(var.name_prefix) <= 128)
+    condition     = var.name_prefix == null ? true : (trimspace(var.name_prefix) != "" && length(var.name_prefix) <= 128)
     error_message = "name_prefix must be null or a non-empty string no longer than 128 characters."
   }
 }
@@ -64,7 +64,7 @@ variable "eips" {
 
   validation {
     condition = alltrue([
-      for eip in values(var.eips) : eip.instance_type == null || contains([
+      for eip in values(var.eips) : eip.instance_type == null ? true : contains([
         "Nat", "NetworkInterface", "ClbInstance", "EcsInstance", "HaVip"
       ], eip.instance_type)
     ])
@@ -73,28 +73,28 @@ variable "eips" {
 
   validation {
     condition = alltrue([
-      for eip in values(var.eips) : eip.private_ip_address == null || can(cidrhost("${eip.private_ip_address}/32", 0))
+      for eip in values(var.eips) : eip.private_ip_address == null ? true : can(cidrhost("${eip.private_ip_address}/32", 0))
     ])
     error_message = "private_ip_address must be a valid IPv4 address when provided."
   }
 
   validation {
     condition = alltrue([
-      for eip in values(var.eips) : eip.period_unit == null || contains([1, 2], eip.period_unit)
+      for eip in values(var.eips) : eip.period_unit == null ? true : contains([1, 2], eip.period_unit)
     ])
     error_message = "period_unit must be 1 (month) or 2 (year)."
   }
 
   validation {
     condition = alltrue([
-      for eip in values(var.eips) : eip.renew_type == null || contains([1, 2, 3], eip.renew_type)
+      for eip in values(var.eips) : eip.renew_type == null ? true : contains([1, 2, 3], eip.renew_type)
     ])
     error_message = "renew_type must be 1 (manual), 2 (automatic), or 3 (no renewal)."
   }
 
   validation {
     condition = alltrue([
-      for eip in values(var.eips) : eip.renew_period_times == null || contains([1, 2, 3, 6, 12], eip.renew_period_times)
+      for eip in values(var.eips) : eip.renew_period_times == null ? true : contains([1, 2, 3, 6, 12], eip.renew_period_times)
     ])
     error_message = "renew_period_times must be 1, 2, 3, 6, or 12 months."
   }

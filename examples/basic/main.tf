@@ -3,19 +3,10 @@ provider "volcenginecc" {
 }
 
 module "eip" {
-  source  = "volcengine/eip/volcenginecc"
+  source  = "terraform-volcenginecc-modules/eip/volcenginecc"
   version = "~> 1.0"
 
-  name_prefix = "example"
-  eips = {
-    primary = {
-      billing_type = 3
-      bandwidth    = 5
-    }
-  }
-
-  common_tags = {
-    Environment = "example"
-    ManagedBy   = "Terraform"
-  }
+  name_prefix = var.name_prefix
+  eips        = var.eips
+  common_tags = var.common_tags
 }

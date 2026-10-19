@@ -3,7 +3,7 @@ provider "volcenginecc" {
 }
 
 module "eips" {
-  source  = "volcengine/eip/volcenginecc"
+  source  = "terraform-volcenginecc-modules/eip/volcenginecc"
   version = "~> 1.0"
 
   name_prefix = "application"

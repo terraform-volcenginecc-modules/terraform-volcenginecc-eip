@@ -1,13 +1,64 @@
-# NLB composition and existing EIP reuse
+# EXISTING EIP NLB EIP Example
 
-Creates an internet-facing NLB and passes `module.eip.allocation_ids["nlb"]` to `zone_mappings.ipv_4_eip_id`. NLB attachment is modeled on the NLB resource because `NlbInstance` is not a supported `volcenginecc_vpc_eip.instance_type` value.
+## Overview
 
-By default, the EIP module creates the address and owns its lifecycle. Set `existing_eip_id` to reuse an existing address instead:
+Runnable existing-eip-nlb configuration for the EIP module. It configures the provider from input variables and calls the published Registry module.
 
-```hcl
-existing_eip_id = "eip-..."
+## Usage
+
+```shell
+terraform init
+terraform plan
+terraform apply
+terraform plan
+terraform destroy
 ```
 
-In reuse mode, `existing_eip_ids` reads the address without adopting it as a Terraform-managed EIP resource. The caller remains responsible for the external address. Destroying this example deletes the NLB but does not release that EIP. Do not also manage the same EIP allocation in another Terraform resource.
+## Requirements
 
-This single-EIP example deliberately accepts exactly one zone mapping. A multi-zone public NLB should provide one independently managed or externally owned EIP per zone rather than reuse one allocation across multiple mappings.
+| Name | Version |
+|---|---|
+| Terraform | `>= 1.5.7` |
+| OpenTofu | `>= 1.11.8` |
+
+## Providers
+
+| Name | Source |
+|---|---|
+| `volcenginecc` | `volcengine/volcenginecc` |
+
+## Resources
+
+| Name | Description |
+|---|---|
+| `terraform-volcenginecc-modules/eip/volcenginecc` | Published EIP module. |
+
+## Inputs
+
+| Name | Description |
+|---|---|
+| `region` | Module-defined region. |
+| `vpc_id` | Module-defined vpc_id. |
+| `security_group_ids` | Module-defined security_group_ids. |
+| `zone_mappings` | Module-defined zone_mappings. |
+| `existing_eip_id` | Module-defined existing_eip_id. |
+| `load_balancer_name` | Module-defined load_balancer_name. |
+| `project_name` | Module-defined project_name. |
+
+## Outputs
+
+| Name | Description |
+|---|---|
+| `allocation_id` | Module-defined allocation_id. |
+| `eip_address` | Module-defined eip_address. |
+| `eip_is_externally_owned` | Module-defined eip_is_externally_owned. |
+| `nlb_id` | Module-defined nlb_id. |
+
+## Examples
+
+This directory is the existing-eip-nlb example.
+
+## Notes
+
+- Supply credentials through supported provider configuration, never in source files.
+- The final plan after apply must report no changes before the configuration is accepted.
