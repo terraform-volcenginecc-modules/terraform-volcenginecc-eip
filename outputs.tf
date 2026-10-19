@@ -54,7 +54,7 @@ output "eips" {
         business_status       = eip.business_status
         is_blocked            = eip.is_blocked
         tags = eip.tags == null ? tomap({}) : tomap({
-          for tag in eip.tags : tag.key => coalesce(tag.value, "")
+          for tag in eip.tags : tag.key => tag.value == null ? "" : tag.value
         })
       }
     },
@@ -75,7 +75,7 @@ output "eips" {
         business_status       = eip.business_status
         is_blocked            = eip.is_blocked
         tags = eip.tags == null ? tomap({}) : tomap({
-          for tag in eip.tags : tag.key => coalesce(tag.value, "")
+          for tag in eip.tags : tag.key => tag.value == null ? "" : tag.value
         })
       }
     },

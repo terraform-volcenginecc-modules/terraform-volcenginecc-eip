@@ -3,7 +3,7 @@ provider "volcenginecc" {
 }
 
 module "eip" {
-  source  = "volcengine/eip/volcenginecc"
+  source  = "terraform-volcenginecc-modules/eip/volcenginecc"
   version = "~> 1.0"
 
   eips = var.existing_eip_id == null ? {

@@ -38,7 +38,7 @@ variable "existing_eip_id" {
   default     = null
 
   validation {
-    condition     = var.existing_eip_id == null || trimspace(var.existing_eip_id) != ""
+    condition     = var.existing_eip_id == null ? true : trimspace(var.existing_eip_id) != ""
     error_message = "existing_eip_id must be null or a non-empty allocation ID."
   }
 }

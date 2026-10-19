@@ -50,17 +50,16 @@ resource "volcenginecc_vpc_eip" "this" {
     }
 
     precondition {
-      condition = (
-        (each.value.instance_type == null && each.value.instance_id == null) ||
-        (each.value.instance_type != null && each.value.instance_id != null && trimspace(each.value.instance_id) != "")
+      condition = each.value.instance_type == null ? each.value.instance_id == null : (
+        each.value.instance_id == null ? false : trimspace(each.value.instance_id) != ""
       )
       error_message = "instance_type and instance_id must either both be omitted or both be provided."
     }
 
     precondition {
-      condition = (
-        each.value.private_ip_address == null ||
-        contains(["EcsInstance", "NetworkInterface"], coalesce(each.value.instance_type, ""))
+      condition = each.value.private_ip_address == null ? true : contains(
+        ["EcsInstance", "NetworkInterface"],
+        each.value.instance_type
       )
       error_message = "private_ip_address is supported only for EcsInstance or NetworkInterface bindings."
     }
@@ -82,7 +81,7 @@ resource "volcenginecc_vpc_eip" "this" {
 
     precondition {
       condition = (
-        each.value.period == null ||
+        each.value.period == null ? true :
         (
           coalesce(each.value.period_unit, 1) == 1 &&
           contains([1, 2, 3, 4, 5, 6, 7, 8, 9, 12, 24, 36, 48, 60], each.value.period)
